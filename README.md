@@ -40,3 +40,12 @@ backend/    # API e regras de negócio
 frontend/   # Interface do usuário
 docker/     # Configurações de containers
 docs/       # Documentação técnica e decisões arquiteturais
+
+## 📐 Decisões Arquiteturais
+
+As principais decisões arquiteturais do projeto estão documentadas utilizando **ADR (Architecture Decision Records)** e podem ser encontradas em:
+
+- `docs/adr/001-architecture-overview.md`
+- `docs/adr/002-mongodb-persistence.md`
+- `docs/adr/003-frontend-nextjs.md`
+
