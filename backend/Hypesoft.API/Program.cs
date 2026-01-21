@@ -7,6 +7,8 @@ using Hypesoft.Domain.Repositories;
 using Hypesoft.Infrastructure.Data;
 using Hypesoft.Infrastructure.Repositories;
 using MongoDB.Driver;
+using Hypesoft.Infrastructure;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +20,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // MediatR (Application layer)
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly)
+builder.Services.AddMediatR(
+    typeof(Hypesoft.Application.Commands.CreateUser.CreateUserCommand).Assembly
 );
+
 
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(
@@ -41,6 +44,9 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddInfrastructure();
+
 
 var app = builder.Build();
 

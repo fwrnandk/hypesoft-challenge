@@ -24,12 +24,13 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> Create(
         [FromBody] CreateUserCommand command)
     {
-        var result = await _mediator.Send(command);
+        var id = await _mediator.Send(command);
 
-        return CreatedAtAction(
-            nameof(Create),
-            new { id = result.Id },
-            result
-        );
+	return CreatedAtAction(
+    		nameof(Create),
+    		new { id },
+    		new { id }
+	);
+
     }
 }

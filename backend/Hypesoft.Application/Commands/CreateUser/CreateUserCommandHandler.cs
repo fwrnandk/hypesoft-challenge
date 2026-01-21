@@ -1,26 +1,36 @@
 using MediatR;
 using Hypesoft.Domain.Entities;
+using Hypesoft.Domain.Repositories;
 
 namespace Hypesoft.Application.Commands.CreateUser;
 
-public class CreateUserCommandHandler
-    : IRequestHandler<CreateUserCommand, CreateUserResult>
+public class CreateUserCommandHandler 
+    : IRequestHandler<CreateUserCommand, Guid>
 {
-    public Task<CreateUserResult> Handle(
+    private readonly IUserRepository _repository;
+
+    public CreateUserCommandHandler(IUserRepository repository)
+    {
+        _repository = repository;
+    }
+
+    public async Task<Guid> Handle(
         CreateUserCommand request,
         CancellationToken cancellationToken)
     {
-        // Criação da entidade de domínio
-        var user = new User(request.Name, request.Email);
+        var existing = await _repository.GetByEmailAsync(request.Email);
 
-        // Persistência virá no próximo passo (Repository)
-        // Por enquanto, retornamos o resultado
+        if (existing is not null)
+            throw new InvalidOperationException("E-mail já cadastrado");
 
-        return Task.FromResult(new CreateUserResult
-        {
-            Id = user.Id,
-            Name = user.Name,
-            Email = user.Email
-        });
+        var user = new User(
+            request.Name,
+            request.Email,
+            request.Password
+        );
+
+        await _repository.AddAsync(user);
+
+        return user.Id;
     }
 }

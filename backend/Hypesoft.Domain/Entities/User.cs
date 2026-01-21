@@ -3,32 +3,25 @@ namespace Hypesoft.Domain.Entities;
 public class User
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; } = null!;
-    public string Email { get; private set; } = null!;
+    public string Name { get; private set; }
+    public string Email { get; private set; }
+    public string Password { get; private set; }
     public DateTime CreatedAt { get; private set; }
 
-    public User(string name, string email)
+    // Construtor protegido (usado futuramente pelo EF)
+    protected User()
     {
-        Validate(name, email);
+        Name = string.Empty;
+        Email = string.Empty;
+        Password = string.Empty;
+    }
 
+    public User(string name, string email, string password)
+    {
         Id = Guid.NewGuid();
         Name = name;
         Email = email;
+        Password = password;
         CreatedAt = DateTime.UtcNow;
-    }
-
-    // Construtor para ORM
-    protected User() { }
-
-    private void Validate(string name, string email)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Nome é obrigatório.");
-
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException("Email é obrigatório.");
-
-        if (!email.Contains("@"))
-            throw new ArgumentException("Email inválido.");
     }
 }
