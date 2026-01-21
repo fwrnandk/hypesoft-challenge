@@ -1,5 +1,8 @@
 using Hypesoft.Application.Commands.CreateUser;
 using MediatR;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Hypesoft.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,11 @@ builder.Services.AddSwaggerGen();
 // MediatR (Application layer)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateUserCommand).Assembly)
+);
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssembly(
+    typeof(CreateUserCommandValidator).Assembly
 );
 
 var app = builder.Build();
