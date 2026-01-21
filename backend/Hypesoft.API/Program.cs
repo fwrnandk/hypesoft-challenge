@@ -3,6 +3,10 @@ using MediatR;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Hypesoft.Application.Validators;
+using Hypesoft.Domain.Repositories;
+using Hypesoft.Infrastructure.Data;
+using Hypesoft.Infrastructure.Repositories;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,21 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssembly(
     typeof(CreateUserCommandValidator).Assembly
 );
+
+builder.Services.AddSingleton(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var connectionString = configuration["MongoDb:ConnectionString"];
+    var databaseName = configuration["MongoDb:Database"];
+
+    return new MongoDbContext(connectionString!, databaseName!);
+});
+
+builder.Services.AddSingleton<IMongoDatabase>(sp =>
+    sp.GetRequiredService<MongoDbContext>().Database
+);
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
