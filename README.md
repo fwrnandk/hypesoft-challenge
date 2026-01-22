@@ -70,5 +70,3 @@ https://localhost:5001/swagger
 - CRUD de Categorias
 - Endpoints REST
 - Swagger para testes
-- [ ] Produtos e Categorias
-- [ ] Testes automatizados
