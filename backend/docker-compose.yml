@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  mongo:
+    image: mongo:7
+    container_name: hypesoft-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0
+    container_name: hypesoft-keycloak
+    command: start-dev
+    environment:
+      KC_DB: dev-file
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
+
+  api:
+    build:
+      context: .
+      dockerfile: backend/Hypesoft.API/Dockerfile
+    container_name: hypesoft-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+      - keycloak
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Mongo__ConnectionString: mongodb://mongo:27017
+      Mongo__Database: hypesoft
+
+volumes:
+  mongo_data:

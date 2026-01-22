@@ -8,6 +8,11 @@ using Hypesoft.Infrastructure.Data;
 using Hypesoft.Infrastructure.Repositories;
 using MongoDB.Driver;
 using Hypesoft.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Hypesoft.Domain.Repositories;
+using Hypesoft.Infrastructure.Repositories;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +28,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(
     typeof(Hypesoft.Application.Commands.CreateUser.CreateUserCommand).Assembly
 );
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
 builder.Services.AddFluentValidationAutoValidation();
@@ -47,8 +56,30 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddInfrastructure();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "http://localhost:8080/realms/hypesoft";
+        options.Audience = "hypesoft-api";
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 // Pipeline HTTP
 if (app.Environment.IsDevelopment())

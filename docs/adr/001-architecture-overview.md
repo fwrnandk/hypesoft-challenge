@@ -1,24 +1,65 @@
-# ADR 001 - Visão Geral da Arquitetura
+ADR-001: Escolha da Arquitetura Clean + CQRS para Backend
 
-## Status
-Aceito
+Status: Aceito
+Data: 21/01/2026
+Autores: Fernando Santos
 
-## Contexto
-O sistema de gestão de produtos precisa ser escalável, de fácil manutenção e preparado para evolução futura. O desafio exige boas práticas arquiteturais, separação de responsabilidades e integração com serviços externos como autenticação e banco de dados.
+1. Contexto
 
-## Decisão
-Foi adotada uma arquitetura baseada em **Clean Architecture**, utilizando princípios de **Domain-Driven Design (DDD)** e o padrão **CQRS** para separação de comandos e consultas.
+Para o backend do projeto Hypesoft Challenge, precisamos de uma arquitetura que:
 
-A aplicação foi organizada em camadas bem definidas:
-- **Domain**: regras de negócio e entidades
-- **Application**: casos de uso, comandos, queries e validações
-- **Infrastructure**: acesso a dados e integrações externas
-- **API**: exposição dos endpoints e configuração da aplicação
+Seja manutenível e escalável para futuros módulos (produtos, categorias, dashboard).
 
-O projeto utiliza **MongoDB** como banco de dados principal, acessado via **driver oficial**, evitando o uso inadequado de um ORM relacional.
+Permita testes unitários e integração de forma simples.
 
-## Consequências
-- Código mais organizado e testável
-- Facilidade para evolução e manutenção
-- Maior clareza na separação de responsabilidades
-- Curva inicial de aprendizado um pouco maior, compensada pela qualidade final
+Separe responsabilidades entre Domain, Application, Infrastructure e API.
+
+Atenda aos padrões de mercado em startups e empresas sólidas.
+
+2. Decisão
+
+Adotar Clean Architecture combinada com CQRS:
+
+Domain: entidades, agregados e interfaces de repositório.
+
+Application: comandos (Commands) e consultas (Queries) via MediatR.
+
+Infrastructure: implementações concretas de repositórios e integração externa (MongoDB, Keycloak).
+
+API: controllers REST expostos com Swagger, autenticação via JWT/Keycloak.
+
+Motivos:
+
+Separação clara de responsabilidades.
+
+Facilita testes unitários (Application e Domain desacoplados).
+
+CQRS permite otimizar consultas e comandos de forma independente.
+
+Compatível com evolução futura (microserviços, Docker, CI/CD).
+
+3. Consequências
+
+Positivas:
+
+Código organizado por camada e responsabilidade.
+
+Facilita onboarding de novos devs e manutenção.
+
+Preparado para expansão do sistema (produtos, categorias, etc).
+
+Negativas / Considerações:
+
+Inicialmente exige mais código boilerplate.
+
+Curva de aprendizado para quem não conhece CQRS/MediatR.
+
+4. Decisão Alternativa Considerada
+
+Arquitetura Monolítica simples (Controllers + Repositórios)
+
+Mais rápido para implementar.
+
+Difícil de manter e testar em projetos maiores.
+
+Conclusão: Clean Architecture + CQRS é melhor para manutenção, testes e evolução futura.

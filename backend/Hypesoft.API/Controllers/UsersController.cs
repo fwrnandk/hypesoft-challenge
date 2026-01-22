@@ -1,9 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Hypesoft.Application.Commands.CreateUser;
+using Hypesoft.Application.Queries.GetUsers;
+using Hypesoft.Application.Queries.GetAllUsers;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Hypesoft.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
@@ -33,4 +38,17 @@ public class UsersController : ControllerBase
 	);
 
     }
+
+	//// <summary>
+/// Lista todos os usuários
+/// </summary>
+[HttpGet]
+[ProducesResponseType(StatusCodes.Status200OK)]
+public async Task<IActionResult> GetAll()
+{
+    var result = await _mediator.Send(new GetAllUsersQuery());
+    return Ok(result);
+}
+
+
 }

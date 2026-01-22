@@ -1,51 +1,75 @@
-# Hypesoft Challenge - Sistema de Gestão de Produtos
+# Hypesoft Challenge
 
-Este repositório contém a implementação do desafio técnico da **Hypesoft**, consistindo em um sistema completo de gestão de produtos com foco em arquitetura moderna, boas práticas e escalabilidade.
+Este projeto foi desenvolvido como parte do desafio técnico da Hypesoft, com foco em boas práticas de arquitetura, organização de código e escalabilidade.
 
-## 🧠 Visão Geral
 
-A aplicação permite:
-- Gestão de produtos e categorias
-- Controle de estoque
-- Dashboard com indicadores
-- Autenticação e autorização via Keycloak
-- Arquitetura baseada em Clean Architecture, DDD e CQRS
+## 📌 Visão Geral
 
-## 🛠️ Stack Tecnológica
+API REST desenvolvida em .NET 9 utilizando Clean Architecture e CQRS, com separação clara de responsabilidades entre as camadas de domínio, aplicação, infraestrutura e API.
 
-### Backend
+
+## 🧱 Arquitetura
+
+O projeto segue os princípios da Clean Architecture, organizado da seguinte forma:
+
+- **Hypesoft.Domain**  
+  Contém entidades, regras de negócio e contratos (interfaces).
+
+- **Hypesoft.Application**  
+  Implementa os casos de uso da aplicação utilizando CQRS com MediatR.
+
+- **Hypesoft.Infrastructure**  
+  Implementações concretas de repositórios e integrações externas.
+
+- **Hypesoft.API**  
+  Camada de entrada da aplicação (Controllers, Swagger, autenticação).
+
+
+## 🧠 Padrões e Decisões Técnicas
+
+- **CQRS** para separar leitura e escrita
+- **MediatR** para desacoplamento entre camadas
+- **Repository Pattern** para abstração de persistência
+- **Swagger** para documentação e testes da API
+
+
+## 🔐 Autenticação
+
+A aplicação está preparada para autenticação via JWT, com integração planejada com o **Keycloak** para gerenciamento de identidade e autorização.
+
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+- .NET SDK 9.0+
+
+### Executando a API
+```bash
+dotnet restore
+dotnet run --project Hypesoft.API
+
+
+Após iniciar, o Swagger estará disponível em:
+
+https://localhost:5001/swagger
+
+
+## 🛠 Tecnologias Utilizadas
+
 - .NET 9
-- MongoDB
-- Clean Architecture + DDD
-- CQRS + MediatR
-- FluentValidation
-- Serilog
+- ASP.NET Core
+- MediatR
+- Swagger / OpenAPI
+- Docker (em andamento)
+- Keycloak (planejado)
 
-### Frontend
-- Next.js 14 (App Router)
-- React 18 + TypeScript
-- TailwindCSS + shadcn/ui
-- TanStack Query
-- React Hook Form + Zod
+## ✅ Status do Projeto
 
-### Infraestrutura
-- Docker & Docker Compose
-- Keycloak
-- Nginx
-
-## 📁 Estrutura do Repositório
-
-```text
-backend/    # API e regras de negócio
-frontend/   # Interface do usuário
-docker/     # Configurações de containers
-docs/       # Documentação técnica e decisões arquiteturais
-
-## 📐 Decisões Arquiteturais
-
-As principais decisões arquiteturais do projeto estão documentadas utilizando **ADR (Architecture Decision Records)** e podem ser encontradas em:
-
-- `docs/adr/001-architecture-overview.md`
-- `docs/adr/002-mongodb-persistence.md`
-- `docs/adr/003-frontend-nextjs.md`
-
+- [x] Estrutura Clean Architecture
+- [x] CQRS com MediatR
+- [x] CRUD de usuários
+- [x] Swagger configurado
+- [ ] Autenticação com Keycloak
+- [ ] Docker Compose
+- [ ] Produtos e Categorias
+- [ ] Testes automatizados

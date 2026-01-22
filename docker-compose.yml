@@ -1,16 +1,12 @@
-
-📌 Simples, limpo e sem exageros (isso é bom).
-
----
-
-## 🧱 PASSO 2.6 — docker-compose.yml (placeholder)
-
-Por enquanto, **não vamos configurar serviços**. Apenas deixe claro que virá depois:
-
-```yaml
 version: "3.9"
 
 services:
-  placeholder:
-    image: alpine
-    command: ["echo", "Docker Compose será configurado nas próximas etapas"]
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    container_name: hypesoft-keycloak
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8080:8080"
