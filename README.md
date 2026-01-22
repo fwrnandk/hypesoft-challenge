@@ -44,7 +44,7 @@ A aplicação está preparada para autenticação via JWT, com integração plan
 - .NET SDK 9.0+
 
 ### Executando a API
-```bash
+
 dotnet restore
 dotnet run --project Hypesoft.API
 
@@ -63,13 +63,12 @@ https://localhost:5001/swagger
 - Docker (em andamento)
 - Keycloak (planejado)
 
-## ✅ Status do Projeto
+## 📦 Funcionalidades
 
-- [x] Estrutura Clean Architecture
-- [x] CQRS com MediatR
-- [x] CRUD de usuários
-- [x] Swagger configurado
-- [ ] Autenticação com Keycloak
-- [ ] Docker Compose
+- CRUD de Usuários
+- CRUD de Produtos
+- CRUD de Categorias
+- Endpoints REST
+- Swagger para testes
 - [ ] Produtos e Categorias
 - [ ] Testes automatizados
