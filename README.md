@@ -1,6 +1,3 @@
-# Hypesoft Challenge
-
-Este projeto foi desenvolvido como parte do desafio técnico da Hypesoft, com foco em boas práticas de arquitetura, organização de código e escalabilidade.
 
 
 ## 📌 Visão Geral
